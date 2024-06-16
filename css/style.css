@@ -47,3 +47,11 @@
     cursor: pointer;
     font-weight: bold;
 }
+
+.cella.bomba {
+background-color: red;
+}
+
+.cella.sicura {
+    background-color: lightblue;
+}

@@ -12,16 +12,24 @@
 
 
 
+
+
 // seleziono il bottone Genera-griglia
 const bt = document.getElementById("genera-griglia");
 // seleziono il container che conterra le celle
 const container = document.querySelector(".container");
-
-const gameOver = false;
+// seleziono il punteggio del gioco
+const score = document.getElementById("score");
 
 
 document.getElementById('genera-griglia').addEventListener('click', () => {
+
     container.innerHTML = "";
+    score.textContent = "0";
+
+    const bombe = generaNumeriCasuali(16, 1, 100);
+    console.log("Bombe: ", bombe);
+
     // generare 100 celle e aggiungerle al container
     for (let i = 1; i <= 100; i++){
         // creo elemento (div)
@@ -29,13 +37,23 @@ document.getElementById('genera-griglia').addEventListener('click', () => {
         // aggiungo al elemento (div) la classe (cella)
         cella.classList.add("cella");
         container.append(cella);
+        cella.textContent = [i];
 
-        // evento al click della cella
+         // Evento al click della cella
         cella.addEventListener('click', () => {
-        cella.classList.toggle('cliccata');
-        console.log(`Hai cliccato sulla cella numero ${i}`);
+            if (bombe.includes(i)) {
+                cella.classList.add('bomba');
+                alert('Hai calpestato una bomba! Fine del gioco.');
+                // Rende tutte le celle non cliccabili
+                const tutteLeCelle = document.querySelectorAll('.cella');
+                tutteLeCelle.forEach(c => c.style.pointerEvents = 'none');
+            } else {
+                cella.classList.add('sicura');
+                // Incrementa il punteggio
+                let currentScore = parseInt(score.textContent);
+                score.textContent = currentScore + 1;
+            }
+            console.log(`Hai cliccato sulla cella numero ${i}`)
     });
 }
 });
-
-
